@@ -6,7 +6,7 @@ const distPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(srcPath, 'index.js'),
+  entry: path.resolve(srcPath, 'index.jsx'),
   output: {
     filename: 'bundle.js',
     path: distPath
