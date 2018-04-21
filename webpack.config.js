@@ -21,6 +21,7 @@ module.exports = {
       }
     }]
   },
+  devtool: 'eval-source-map',
   devServer: {
     contentBase: distPath,
     compress: true,
@@ -28,11 +29,10 @@ module.exports = {
     inline: true,
   },
   plugins: [
-    new CopyWebpackPlugin([{
-      from: `${srcPath}/*.+(html|css)`,
-      to: distPath,
-      flatten: true
-    }], {/* options */})
+    new CopyWebpackPlugin([
+      {from: `${srcPath}/*.+(html)`, to: distPath, flatten: true},
+      {from: `${srcPath}/images`, to: `${distPath}/images`},
+    ], {/* options */})
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
