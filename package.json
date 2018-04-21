@@ -1,0 +1,22 @@
+{
+  "name": "novel-quest",
+  "version": "0.0.0",
+  "description": "Novel Quest: A literary game entry for Ludum Dare 41",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/aMoniker/novel-quest.git"
+  },
+  "keywords": [
+    "ludum-dare"
+  ],
+  "author": "James Greenleaf",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/aMoniker/novel-quest/issues"
+  },
+  "homepage": "https://github.com/aMoniker/novel-quest#readme"
+}
