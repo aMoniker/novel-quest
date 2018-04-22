@@ -6,8 +6,8 @@ const LineStyled = styled.span`
 
 class Line extends React.Component {
   render() {
-    const { text } = this.props;
-    return (<LineStyled>{text} </LineStyled>);
+    const { children } = this.props;
+    return (<LineStyled>{children}</LineStyled>);
   }
 }
 
