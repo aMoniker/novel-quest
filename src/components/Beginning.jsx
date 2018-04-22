@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const BeginningStyled = styled.div`
+  font-family: 'Great Vibes', cursive;
   text-align: center;
   > h1 {
     margin-top: 0;

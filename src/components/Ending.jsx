@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const EndingStyled = styled.div`
+  font-family: 'Great Vibes', cursive;
   text-align: center;
 `;
 
