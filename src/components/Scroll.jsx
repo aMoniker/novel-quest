@@ -23,6 +23,7 @@ class Scroll extends React.Component {
     this.state = {
       current: 'start',
       path: [],
+      vars: {},
     };
   }
 
@@ -37,14 +38,11 @@ class Scroll extends React.Component {
     path.push(this.getNodeText(node).replace(CHOICE, chosen.text));
 
     if (chosen.sets) {
-      // set vars
+      const vars = {...this.state.vars, ...chosen.sets};
+      this.setState({vars});
     }
 
     this.setState({current, path});
-  }
-
-  setVariables() {
-
   }
 
   getCurrentNode() {
@@ -52,7 +50,8 @@ class Scroll extends React.Component {
   }
 
   getNodeText(node) {
-    return (typeof node.text === 'function') ? node.text() : node.text;
+    return (typeof node.text === 'function')
+      ? node.text(this.state.vars) : node.text;
   }
 
   renderPath() {
