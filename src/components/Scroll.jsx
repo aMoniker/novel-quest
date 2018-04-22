@@ -21,33 +21,34 @@ class Scroll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayedNodes: ['start'],
+      path: ['start'],
+      chosen: [],
     };
   }
 
-  getDisplayedNodes() {
-    return this.state.displayedNodes.map((n) => nodes[n]);
+  getPathNodes() {
+    return this.state.path.map((n) => nodes[n]);
   }
 
   makeChoice = (e) => {
     let index = e.target.selectedIndex - 1;
     if (index < 0) { return; }
-    const displayedNodes = this.getDisplayedNodes();
-    const completedNode = displayedNodes[displayedNodes.length - 1];
-    completedNode.chosen = index;
-    const newNodes = this.state.displayedNodes;
-    newNodes.push(completedNode.pick[index].next);
-    this.setState({
-      displayedNodes: newNodes
-    });
+    const { chosen, path } = this.state;
+    const pathNodes = this.getPathNodes();
+    const completedNode = pathNodes[pathNodes.length - 1];
+    path.push(completedNode.pick[index].next);
+    chosen.push(index);
+    this.setState({path, chosen});
   }
 
   renderNodes() {
-    const nodes = this.getDisplayedNodes();
+    const nodes = this.getPathNodes();
+    const { chosen } = this.state;
     return nodes.map((n, i) => {
       const last = (i === nodes.length - 1);
-      const choice = last ? this.renderChoice(n) : n.pick[n.chosen].text;
-      const parts = n.text.split(CHOICE);
+      const choice = last ? this.renderChoice(n) : n.pick[chosen[i]].text;
+      const text = (typeof n.text === 'function') ? n.text() : n.text;
+      const parts = text.split(CHOICE);
       return <Line key={i}>{parts[0]}{choice}{parts[1]} </Line>;
     });
   }
