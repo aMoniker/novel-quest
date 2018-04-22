@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Line from 'app/components/Line';
 import Choice from 'app/components/Choice';
+import Beginning from 'app/components/Beginning';
+import Ending from 'app/components/Ending';
 import { nodes, CHOICE } from 'app/modules/nodes';
 
 const ScrollStyled = styled.div`
@@ -20,7 +22,15 @@ const ScrollStyled = styled.div`
 class Scroll extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this.getInitialState();
+  }
+
+  reset = () => {
+    this.setState(this.getInitialState());
+  }
+
+  getInitialState() {
+    return {
       current: 'start',
       path: [],
       vars: {},
@@ -60,9 +70,21 @@ class Scroll extends React.Component {
 
   renderCurrent() {
     const node = this.getCurrentNode();
+    if (node.end) {
+      return this.renderEnding(node);
+    }
     const choice = this.renderChoice(node);
     const parts = this.getNodeText(node).split(CHOICE);
     return <Line key={this.state.current}>{parts[0]}{choice}{parts[1]} </Line>;
+  }
+
+  renderEnding(node) {
+    return (
+      <React.Fragment>
+        <Line key="end">{this.getNodeText(node)}</Line>
+        <Ending reset={this.reset} />
+      </React.Fragment>
+    );
   }
 
   renderChoice(node) {
@@ -71,7 +93,7 @@ class Scroll extends React.Component {
 
   render() {
     return (
-      <ScrollStyled>{this.renderPath()}{this.renderCurrent()}</ScrollStyled>
+      <ScrollStyled><Beginning />{this.renderPath()}{this.renderCurrent()}</ScrollStyled>
     );
   }
 }
