@@ -21,36 +21,49 @@ class Scroll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      path: ['start'],
-      chosen: [],
+      current: 'start',
+      path: [],
     };
-  }
-
-  getPathNodes() {
-    return this.state.path.map((n) => nodes[n]);
   }
 
   makeChoice = (e) => {
     let index = e.target.selectedIndex - 1;
     if (index < 0) { return; }
-    const { chosen, path } = this.state;
-    const pathNodes = this.getPathNodes();
-    const completedNode = pathNodes[pathNodes.length - 1];
-    path.push(completedNode.pick[index].next);
-    chosen.push(index);
-    this.setState({path, chosen});
+
+    const { path } = this.state;
+    const node = this.getCurrentNode();
+    const chosen = node.pick[index];
+    const current = chosen.next;
+    path.push(this.getNodeText(node).replace(CHOICE, chosen.text));
+
+    if (chosen.sets) {
+      // set vars
+    }
+
+    this.setState({current, path});
   }
 
-  renderNodes() {
-    const nodes = this.getPathNodes();
-    const { chosen } = this.state;
-    return nodes.map((n, i) => {
-      const last = (i === nodes.length - 1);
-      const choice = last ? this.renderChoice(n) : n.pick[chosen[i]].text;
-      const text = (typeof n.text === 'function') ? n.text() : n.text;
-      const parts = text.split(CHOICE);
-      return <Line key={i}>{parts[0]}{choice}{parts[1]} </Line>;
-    });
+  setVariables() {
+
+  }
+
+  getCurrentNode() {
+    return nodes[this.state.current];
+  }
+
+  getNodeText(node) {
+    return (typeof node.text === 'function') ? node.text() : node.text;
+  }
+
+  renderPath() {
+    return this.state.path.map((text, i) => <Line key={i}>{text} </Line>);
+  }
+
+  renderCurrent() {
+    const node = this.getCurrentNode();
+    const choice = this.renderChoice(node);
+    const parts = this.getNodeText(node).split(CHOICE);
+    return <Line key={this.state.current}>{parts[0]}{choice}{parts[1]} </Line>;
   }
 
   renderChoice(node) {
@@ -59,7 +72,7 @@ class Scroll extends React.Component {
 
   render() {
     return (
-      <ScrollStyled>{this.renderNodes()}</ScrollStyled>
+      <ScrollStyled>{this.renderPath()}{this.renderCurrent()}</ScrollStyled>
     );
   }
 }
