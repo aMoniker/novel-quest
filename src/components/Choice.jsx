@@ -4,6 +4,10 @@ import crypto from 'crypto';
 
 
 const ChoiceStyled = styled.select`
+  font-size: 24px;
+  border: 1px solid black;
+  background: transparent;
+  cursor: pointer;
 `;
 
 const OptionStyled = styled.option`
